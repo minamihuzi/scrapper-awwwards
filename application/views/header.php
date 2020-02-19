@@ -129,6 +129,8 @@
                         </li>                        
                         <li class="<?php if($page_code=='export_add') echo 'active'?>"><a href="<?php echo site_url('export/add')?>"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Invoice Add">Add Project</span></a>
                         </li>
+						<li class="<?php if($page_code=='export_mark') echo 'active'?>"><a href="<?php echo site_url('export/mark')?>"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Invoice Add">Add Mark</span></a>
+                        </li>
                     </ul>
                 </li>                 
             </ul>

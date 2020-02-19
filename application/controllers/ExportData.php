@@ -19,6 +19,7 @@ class ExportData extends CI_Controller {
   }
   
   public function index(){       
+	$this->main->setTb('export');
       $data = array(
           'page_title' => 'Awwwards Export Data Project List',
           'list'=>$this->main->get_list()
@@ -36,7 +37,8 @@ class ExportData extends CI_Controller {
   }
 
   public function update_process() { 
-    $id = $this->input->post('id');
+    $this->main->setTb('export');
+	$id = $this->input->post('id');
     $data = array(
         'name' => $this->input->post('name'),
         'domains' => $this->input->post('domains'),
@@ -50,7 +52,8 @@ class ExportData extends CI_Controller {
   }
 
   public function edit($id) {
-      $data = array(
+      $this->main->setTb('export');
+	  $data = array(
           'page_title'=>'Awwwards Export Data Project Edit',
           'item'=>$this->main->get($id)
       );
@@ -74,7 +77,8 @@ class ExportData extends CI_Controller {
   }
 
   public function update_status1() { 
-    $id = $this->input->post('id');
+    $this->main->setTb('export');
+	$id = $this->input->post('id');
     $row=$this->main->get($id);
     $result_file="";
     if($row->status==0){
@@ -123,8 +127,48 @@ class ExportData extends CI_Controller {
   }
 
   public function delete() {
-      $ids = $this->input->post('ids');
+      $this->main->setTb('export');
+	  $ids = $this->input->post('ids');
       $result = $this->main->delete($ids);
       $this->respJSON(array('result'=>$result));
+  }
+  
+   public function mark(){       
+      $data = array('page_title'=>'Awwwards Export Data Project Mark');
+      $this->load->view('header', array('page_code'=>'export_mark'));
+      $this->load->view('mark', $data);
+      $this->load->view('footer');
+  }
+  public function update_mark() { 
+		$mark_text = $this->input->post('domains');
+		$list=$this->main->get_marklist();
+		$result_file="";
+		$id = 0;
+		$cnt = 0;
+		$this->main->setTb('result_mark');
+		if(!empty($list)){			
+			foreach($list as $item) {
+				$no=$item->no;
+				//$categories = $item->category;
+				$mark = 0;
+				$categories = explode("/", $item->category);
+				 foreach($categories as $category){
+					$category=str_replace("-"," ",trim($category));
+					if($mark_text!="" && $category!=""){
+						$mark = $mark + substr_count($mark_text, $category);
+					}
+				 }
+				 $data = array(
+					'category' => $item->category,
+					'url' => $item->url,
+					'mark' => $mark,
+					'maintype' => $item->maintype
+				);   
+				$result = $this->main->update($data, $id);
+				$cnt = $cnt + 1;
+			}
+			
+		}
+		$this->respJSON(array('result'=>"1", 'result_cnt'=>$cnt));
   }
 }

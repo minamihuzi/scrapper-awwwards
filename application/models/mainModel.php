@@ -78,5 +78,15 @@ class mainModel extends CI_Model {
             return 0;
         }        
     }
-
+	public function get_marklist() {
+        $this->db->select('*');
+        $this->db->from("result");
+        $this->db->order_by('no', 'desc');
+        $query = $this->db->get();
+        $result = $query->result();
+        if($result){
+            return $result;
+        }
+        return null;
+    }
 }

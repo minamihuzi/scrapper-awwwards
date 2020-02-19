@@ -74,7 +74,7 @@
 	<?php if(strpos($page_code, 'add') !== false) { ?>
 	<!-- <script src="<?php echo base_url('app-assets')?>/js/scripts/extensions/dropzone.js"></script> -->
 	<?php } ?>
-	<?php if(strpos($page_code, 'list') !== false || strpos($page_code, 'add') !== false) { ?>
+	<?php if(strpos($page_code, 'list') !== false || strpos($page_code, 'add') !== false || strpos($page_code, 'mark') !== false) { ?>
 	<script src="<?php echo base_url('app-assets')?>/js/scripts/pages/app-invoice.js"></script>
 	<?php } ?>
 	<script src="<?php echo base_url('app-assets')?>/js/<?=$page_code?>.js"></script>	

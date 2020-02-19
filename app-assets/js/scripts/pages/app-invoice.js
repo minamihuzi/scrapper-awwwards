@@ -263,6 +263,79 @@ $(document).ready(function() {
 		});
 	});
 
+	$('.btn-save-mark').on('click', function(e) {
+		e.preventDefault();
+		var frm = $('#frmMark'),
+			name = "mark",
+			domains = $('input[name="domains"]', frm);
+		if(name.val()=='') {
+			name.next('div.err-message').show();
+			return;
+		}
+		if(domains.val()=='') {
+			domains.next('div.err-message').show();
+			return;
+		}			
+		var tmp = page_code.split('_');
+		Swal.fire({
+			title: 'Are you sure to save?',
+			text: "You won't be able to revert this!",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes',
+			confirmButtonClass: 'btn btn-primary',
+			cancelButtonClass: 'btn btn-danger ml-1',
+			buttonsStyling: false,
+		}).then(function (result) {
+			if (result.value) {
+				if (typeof FormData !== 'undefined') {
+					var formData = new FormData(frm[0]);
+					$.ajax({
+						url : tmp[0] + "/update_mark",
+						type : 'POST',
+						data : formData,
+						dataType: 'json',			
+						async : false,
+						cache : false,
+						contentType : false,
+						processData : false,
+						success : function(json) {    
+							if(json.result == 1) {
+								Swal.fire({
+									title: 'Saved successfully!',
+									confirmButtonClass: 'btn btn-primary',
+									buttonsStyling: false,									
+								}).then(function(result) {
+									if(result)
+										location.href = base_url + tmp[0] + '/list';
+								});	
+							} else {
+								Swal.fire({
+									type: 'error',
+									title: 'Oops...',
+									text: 'Saving is Failed. Try later!',
+									confirmButtonClass: 'btn btn-primary',
+									buttonsStyling: false,
+								});						
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {  
+							Swal.fire({
+								type: 'error',
+								title: 'Oops...',
+								text: textStatus + errorThrown,
+								confirmButtonClass: 'btn btn-primary',
+								buttonsStyling: false,
+							});
+						}			
+					});
+				}
+			}
+		});
+	});
+
 	$('input, textarea', $('#frmAdd')).on('keydown', function() {
 		$(this).next('div.err-message').hide();
 	});

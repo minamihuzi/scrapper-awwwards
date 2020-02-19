@@ -267,11 +267,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var frm = $('#frmMark'),
 			name = "mark",
-			domains = $('input[name="domains"]', frm);
-		if(name.val()=='') {
-			name.next('div.err-message').show();
-			return;
-		}
+			domains = $('input[name="domains"]', frm);		
 		if(domains.val()=='') {
 			domains.next('div.err-message').show();
 			return;
